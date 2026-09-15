@@ -1,0 +1,31 @@
+{
+  "name": "construction-pos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Point of Sale, inventory and accounts system for construction material shops in Pakistan",
+  "workspaces": [
+    "packages/shared",
+    "packages/server",
+    "packages/web"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,green \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "npm run dev -w @pos/server",
+    "dev:web": "npm run dev -w @pos/web",
+    "build": "npm run build -w @pos/web && npm run build -w @pos/server",
+    "start": "npm run start -w @pos/server",
+    "test": "npm run test -w @pos/shared && npm run test -w @pos/server",
+    "typecheck": "npm run typecheck -w @pos/shared && npm run typecheck -w @pos/server && npm run typecheck -w @pos/web",
+    "seed:demo": "npm run seed:demo -w @pos/server",
+    "admin:reset-password": "npm run admin:reset-password -w @pos/server --",
+    "cert:generate": "npm run cert:generate -w @pos/server --"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
