@@ -628,7 +628,7 @@ export function PosPage() {
                       <div className="col-span-3">
                         <MoneyInput
                           className={clsx('h-8 py-1 text-sm', l.priceEdited && 'border-amber-400 bg-amber-50')}
-                          prefix={false}
+                          showPrefix={false}
                           value={l.unitPrice}
                           onChange={(v) => dispatch({ type: 'price', key: l.key, unitPrice: v ?? 0 })}
                           aria-label="Unit price"
@@ -638,7 +638,7 @@ export function PosPage() {
                       <div className="col-span-6 col-start-7 flex items-center justify-end gap-1.5">
                         <span className="text-[11px] text-slate-400">Disc.</span>
                         <div className="w-24">
-                          <MoneyInput className="h-7 py-0.5 text-xs" prefix={false} value={l.discount || null} onChange={(v) => dispatch({ type: 'discount', key: l.key, discount: v ?? 0 })} aria-label="Line discount" />
+                          <MoneyInput className="h-7 py-0.5 text-xs" showPrefix={false} value={l.discount || null} onChange={(v) => dispatch({ type: 'discount', key: l.key, discount: v ?? 0 })} aria-label="Line discount" />
                         </div>
                       </div>
                     </div>

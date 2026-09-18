@@ -155,11 +155,11 @@ export function Checkbox({
 interface MoneyInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
   value: number | null;
   onChange: (paisa: number | null) => void;
-  prefix?: boolean;
+  showPrefix?: boolean;
 }
 
 export const MoneyInput = forwardRef<HTMLInputElement, MoneyInputProps>(function MoneyInput(
-  { value, onChange, className, prefix = true, onBlur, ...rest },
+  { value, onChange, className, showPrefix = true, onBlur, ...rest },
   ref,
 ) {
   const [text, setText] = useState(fromPaisa(value));
@@ -169,12 +169,12 @@ export const MoneyInput = forwardRef<HTMLInputElement, MoneyInputProps>(function
   }, [value]);
   return (
     <div className="relative">
-      {prefix && <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400">Rs</span>}
+      {showPrefix && <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400">Rs</span>}
       <input
         ref={ref}
         inputMode="decimal"
         autoComplete="off"
-        className={clsx('input text-right tabular-nums', prefix && 'pl-8', className)}
+        className={clsx('input text-right tabular-nums', showPrefix && 'pl-8', className)}
         value={text}
         onFocus={(e) => {
           focused.current = true;

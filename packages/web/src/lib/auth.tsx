@@ -55,16 +55,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       can: (p) => !!user?.permissions.includes(p),
       login: async (username, password) => {
         const u = await api.post<SessionUser>('/auth/login', { username, password });
-        qc.clear();
         qc.setQueryData(['me'], u);
+        qc.removeQueries({ predicate: (q) => q.queryKey[0] !== 'me' });
         return u;
       },
       logout: async () => {
         try {
           await api.post('/auth/logout');
         } finally {
-          qc.clear();
           qc.setQueryData(['me'], null);
+          qc.removeQueries({ predicate: (q) => q.queryKey[0] !== 'me' });
         }
       },
       setUser,

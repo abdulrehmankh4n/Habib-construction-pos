@@ -99,6 +99,10 @@ export function AgreementFormModal({
   const save = useMutation({
     mutationFn: () => {
       if (!form?.customer && !agreement) throw new Error('Select the customer');
+      if (!form!.fatherName.trim()) throw new Error("Enter the customer's father / husband name — it is printed on the agreement");
+      if (!form!.cnic.trim()) throw new Error('Enter the CNIC number — a legal agreement needs it');
+      if (!form!.address.trim()) throw new Error('Enter the full address');
+      if (!form!.amount) throw new Error('Enter the outstanding amount');
       const body = {
         customerId: agreement?.customerId ?? form!.customer!.id,
         fatherName: form!.fatherName,
