@@ -20,9 +20,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ['me'],
     queryFn: async () => {
       try {
-        return await api.get<SessionUser>('/auth/me');
+        const user = await api.get<SessionUser>('/auth/me');
+        if (!user || typeof user !== 'object' || !Array.isArray(user.permissions)) return null;
+        return user;
       } catch (err) {
-        if (err instanceof ApiError && err.status === 401) return null;
+        if (err instanceof ApiError && (err.status === 401 || err.status === 404 || err.status === 0)) return null;
         throw err;
       }
     },

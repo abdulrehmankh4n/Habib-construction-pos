@@ -60,10 +60,18 @@ async function request<T>(method: string, url: string, body?: unknown, init?: Re
   }
   if (!res.ok) {
     const err = (data as { error?: { code?: string; message?: string; details?: unknown } } | null)?.error;
-    const apiError = new ApiError(res.status, err?.code ?? 'ERROR', err?.message ?? `Request failed (${res.status})`, err?.details);
+    let message = err?.message ?? `Request failed (${res.status})`;
+    if (res.status === 404 && url.startsWith('/auth/')) {
+      message =
+        'No POS server is connected to this website. Use the app on your shop computer (npm start → http://localhost:3000), or deploy the API and point Vercel /api to it.';
+    }
+    const apiError = new ApiError(res.status, err?.code ?? 'ERROR', message, err?.details);
     if (res.status === 401 && !url.startsWith('/auth/login')) unauthorizedHandler?.();
     if (res.status === 403 && apiError.code === 'PASSWORD_CHANGE_REQUIRED') passwordChangeHandler?.();
     throw apiError;
+  }
+  if (typeof data === 'string') {
+    throw new ApiError(0, 'NETWORK', 'Unexpected response from the POS server.');
   }
   return data as T;
 }

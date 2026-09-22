@@ -9,7 +9,11 @@
     "packages/web"
   ],
   "engines": {
-    "node": ">=20.19.0"
+    "node": "20.x"
+  },
+  "allowScripts": {
+    "better-sqlite3": true,
+    "esbuild": true
   },
   "scripts": {
     "dev": "concurrently -k -n api,web -c blue,green \"npm:dev:server\" \"npm:dev:web\"",
@@ -24,6 +28,7 @@
     "cert:generate": "npm run cert:generate -w @pos/server --"
   },
   "devDependencies": {
+    "@vercel/node": "^5.3.21",
     "concurrently": "^9.2.1",
     "typescript": "~5.9.3",
     "vitest": "^3.2.4"

@@ -44,7 +44,7 @@ export function ensureAdminUser(ctx: AppContext) {
 export function createApp(ctx: AppContext) {
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 'loopback');
+  app.set('trust proxy', process.env.VERCEL ? 1 : 'loopback');
 
   app.use(
     helmet({
